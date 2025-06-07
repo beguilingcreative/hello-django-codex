@@ -1,0 +1,70 @@
+{% extends 'hello/base.html' %}
+
+{% block title %}Chrome Dino{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Chrome Dino</h1>
+<div id="dino-container"></div>
+<p class="mt-3">Score: <span id="score">0</span> | High Score: <span id="high-score">0</span></p>
+
+<script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+<script>
+class DinoScene extends Phaser.Scene {
+  preload(){
+    this.load.image('dino', '{% static 'hello/dinosaur.png' %}');
+    this.load.image('cactus', '{% static 'hello/cactus.png' %}');
+  }
+  create(){
+    this.score = 0;
+    this.highScore = parseInt(localStorage.getItem('dinoHighScore') || '0');
+    document.getElementById('high-score').textContent = this.highScore;
+
+    this.physics.world.setBounds(0,0,800,400);
+    this.dino = this.physics.add.sprite(80,330,'dino').setCollideWorldBounds(true);
+    this.dino.setGravityY(1000);
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.cacti = this.physics.add.group();
+    this.time.addEvent({ delay: 1500, callback: this.spawnCactus, callbackScope: this, loop: true });
+
+    this.physics.add.overlap(this.dino, this.cacti, this.hit, null, this);
+  }
+  spawnCactus(){
+    const cactus = this.cacti.create(820,330,'cactus');
+    cactus.setVelocityX(-200);
+    cactus.setImmovable(true);
+  }
+  hit(){
+    this.physics.pause();
+    this.time.delayedCall(1000, () => this.scene.restart(), [] ,this);
+    if(this.score > this.highScore){
+      this.highScore = this.score;
+      localStorage.setItem('dinoHighScore', this.highScore);
+    }
+  }
+  update(time,delta){
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space) && this.dino.body.blocked.down){
+      this.dino.setVelocityY(-450);
+    }
+    this.cacti.children.iterate(c => { if(c.x < -50) c.destroy(); });
+
+    this.score += delta/1000;
+    document.getElementById('score').textContent = Math.floor(this.score);
+    if(this.score > this.highScore){
+      this.highScore = Math.floor(this.score);
+      document.getElementById('high-score').textContent = this.highScore;
+    }
+  }
+}
+
+new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 800,
+  height: 400,
+  parent: 'dino-container',
+  backgroundColor: '#fff',
+  physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
+  scene: DinoScene
+});
+</script>
+{% endblock %}

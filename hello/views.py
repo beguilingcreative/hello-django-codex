@@ -111,3 +111,8 @@ def panic_records(request):
 def tetris(request):
     """Render the Phaser Tetris game."""
     return render(request, 'hello/tetris.html')
+
+
+def dino(request):
+    """Render the Phaser Dino game."""
+    return render(request, 'hello/dino.html')
