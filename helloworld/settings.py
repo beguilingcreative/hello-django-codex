@@ -53,3 +53,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Allow deployments like Azure App Service to specify additional trusted origins
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://localhost,https://*.azurewebsites.net'
+).split(',')
+
