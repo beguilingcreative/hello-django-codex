@@ -3,7 +3,10 @@
 {% block title %}Message Board{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Message Board</h1>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h1 class="mb-0">Message Board</h1>
+    <a href="{% url 'tetris' %}" class="btn btn-success">Play Tetris</a>
+</div>
 <div class="card mb-4">
     <div class="card-body">
         <form method="post" class="row g-3">
