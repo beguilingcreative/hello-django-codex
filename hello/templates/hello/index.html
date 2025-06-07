@@ -1,0 +1,23 @@
+{% extends 'hello/base.html' %}
+
+{% block title %}Message Board{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Message Board</h1>
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Post Message</button>
+</form>
+<ul class="list-group">
+    {% for msg in messages %}
+    <li class="list-group-item">
+        <h5>{{ msg.title }}</h5>
+        <p>{{ msg.content|linebreaks }}</p>
+        <small class="text-muted">{{ msg.created_at }}</small>
+    </li>
+    {% empty %}
+    <li class="list-group-item">No messages yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
