@@ -1,7 +1,1 @@
-from django.contrib import admin
-from .models import Message
-
-@admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at')
-    search_fields = ('title', 'content')
+"""Admin configuration is omitted because this project does not use a database."""
