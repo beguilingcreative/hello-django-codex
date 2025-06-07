@@ -1,6 +1,6 @@
 # Hello Django Codex
 
-This example demonstrates a minimal Django application **without** using a database. Messages are kept in memory using plain Python objects. It still highlights a few Django features:
+This example demonstrates a minimal Django application that doesn't persist any data. Messages are kept in memory using plain Python objects. The settings include a small SQLite database so Django can start up, but the database itself isn't used by the app. It still highlights a few Django features:
 
 - Rendering templates with Bootswatch styling.
 - Using Django forms for user input.
