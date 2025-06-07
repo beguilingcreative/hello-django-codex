@@ -106,3 +106,8 @@ def panic_records(request):
         'page_obj': page_obj,
         'error': None,
     })
+
+
+def tetris(request):
+    """Render the Phaser Tetris game."""
+    return render(request, 'hello/tetris.html')
