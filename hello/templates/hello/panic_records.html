@@ -18,7 +18,7 @@
     <tbody>
         {% for item in page_obj %}
         <tr>
-            <td>{{ item['RowKey'] }}</td>
+            <td>{{ item.RowKey }}</td>
             <td><pre class="mb-0">{{ item }}</pre></td>
         </tr>
         {% empty %}
