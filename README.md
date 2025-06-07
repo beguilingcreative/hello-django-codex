@@ -1,10 +1,10 @@
 # Hello Django Codex
 
-This example project demonstrates a minimal Django application with a simple message board. It highlights a few Django features:
+This example demonstrates a minimal Django application **without** using a database. Messages are kept in memory using plain Python objects. It still highlights a few Django features:
 
-- Use of the ORM through a `Message` model.
 - Rendering templates with Bootstrap styling.
-- Basic usage of forms to create new records.
+- Using Django forms for user input.
+- Basic view logic written in Python.
 
 ## Quick start
 
@@ -12,7 +12,6 @@ Install dependencies and run the development server:
 
 ```bash
 pip install -r requirements.txt
-python manage.py migrate
 python manage.py runserver
 ```
 
