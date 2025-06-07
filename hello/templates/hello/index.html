@@ -4,11 +4,17 @@
 
 {% block content %}
 <h1 class="mb-4">Message Board</h1>
-<form method="post" class="mb-4">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Post Message</button>
-</form>
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Post Message</button>
+            </div>
+        </form>
+    </div>
+</div>
 <ul class="list-group">
     {% for msg in messages %}
     <li class="list-group-item">
