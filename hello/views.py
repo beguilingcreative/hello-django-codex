@@ -64,7 +64,8 @@ def utilities(request):
 
 
 def panic_records(request):
-    """Display entries from Azure Table Storage with PartitionKey 'PanicTracker'."""
+    """Display entries from Azure Table Storage table 'hELLOFish' with
+    PartitionKey 'PanicTracker'."""
     conn_str = os.environ.get('AzureWebJobsCosmosDBConnectionString')
     if not conn_str:
         return render(request, 'hello/panic_records.html', {
@@ -72,7 +73,8 @@ def panic_records(request):
             'error': 'Connection string not configured.'
         })
 
-    table_name = os.environ.get('COSMOS_TABLE_NAME', 'PanicTracker')
+    # Use the provided table name or default to 'hELLOFish'
+    table_name = os.environ.get('COSMOS_TABLE_NAME', 'hELLOFish')
     service = TableServiceClient.from_connection_string(conn_str)
     table = service.get_table_client(table_name)
 
