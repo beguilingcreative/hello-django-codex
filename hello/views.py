@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from .forms import MessageForm, FactorialForm
 from azure.data.tables import TableServiceClient
+from azure.core.exceptions import ResourceNotFoundError, HttpResponseError
 
 # In-memory list to store messages during runtime
 messages = []
@@ -76,8 +77,24 @@ def panic_records(request):
     table = service.get_table_client(table_name)
 
     # Retrieve all entities with the specified partition key
-    entities = table.query_entities("PartitionKey eq 'PanicTracker'")
-    items = list(entities)
+    try:
+        entities = table.query_entities("PartitionKey eq 'PanicTracker'")
+        items = list(entities)
+    except ResourceNotFoundError:
+        return render(request, 'hello/panic_records.html', {
+            'page_obj': None,
+            'error': f'Table {table_name} not found.'
+        })
+    except HttpResponseError as e:
+        return render(request, 'hello/panic_records.html', {
+            'page_obj': None,
+            'error': str(e)
+        })
+    except Exception as e:
+        return render(request, 'hello/panic_records.html', {
+            'page_obj': None,
+            'error': str(e)
+        })
 
     paginator = Paginator(items, 50)
     page_number = request.GET.get('page')
